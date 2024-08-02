@@ -4,9 +4,9 @@ export const stockSlice = createSlice({
   name: "stock",
   initialState: {
     value: {
-      quantity: 22,
-      price: 12,
-      name: "Amazon",
+      quantity: 0,
+      price: 0,
+      name: "",
       stockSearch: "",
     },
   },
