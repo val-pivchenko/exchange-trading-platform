@@ -1,0 +1,52 @@
+[
+  {
+    "name": "NVIDIA",
+    "symbol": "NVDA",
+    "price": 109.21
+  },
+  {
+    "name": "Amazon.com, Inc.",
+    "symbol": "AMZN",
+    "price": 184.07
+  },
+  {
+    "name": "Tesla, Inc.",
+    "symbol": "TSLA",
+    "price": 216.86
+  },
+  {
+    "name": "Apple Inc.",
+    "symbol": "AAPL",
+    "price": 218.36
+  },
+  {
+    "name": "Meta Platforms, Inc.",
+    "symbol": "META",
+    "price": 497.74
+  },
+  {
+    "name": "Advanced Micro Devices, Inc.",
+    "symbol": "AMD",
+    "price": 132.54
+  },
+  {
+    "name": "Microsoft Corporation",
+    "symbol": "MSFT",
+    "price": 417.11
+  },
+  {
+    "name": "Intel Corporation",
+    "symbol": "INTC",
+    "price": 29.05
+  },
+  {
+    "name": "Super Micro Computer, Inc.",
+    "symbol": "SMCI",
+    "price": 672.24
+  },
+  {
+    "name": "Broadcom Inc.",
+    "symbol": "AVGO",
+    "price": 147.02
+  }
+]
