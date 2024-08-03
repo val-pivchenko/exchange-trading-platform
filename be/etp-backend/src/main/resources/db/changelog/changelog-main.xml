@@ -13,7 +13,7 @@
       <column name="side" type="char(1)">
         <constraints nullable="false"/>
       </column>
-      <column name="limit_price" type="int">
+      <column name="limit_price" type="double">
         <constraints nullable="false"/>
       </column>
       <column name="quantity" type="int">

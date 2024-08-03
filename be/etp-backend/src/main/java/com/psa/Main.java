@@ -12,13 +12,14 @@ import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
-import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.testcontainers.containers.MySQLContainer;
 
 public class Main {
 
   public static final String ENV = "local";
+
+  public static Connection connection;
 
   public static void main(String[] args) throws Exception {
 
@@ -49,7 +50,7 @@ public class Main {
 
       Class.forName("com.mysql.cj.jdbc.Driver");
 
-      Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+      connection = DriverManager.getConnection(jdbcUrl, username, password);
 
       Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
           new liquibase.database.jvm.JdbcConnection(connection));
@@ -78,7 +79,7 @@ public class Main {
 
     Server server = ServerBuilder.forPort(8999)
         .addService(ProtoReflectionService.newInstance())
-        .addService(new ExchangeGrpcImpl()).build();
+        .addService(new ExchangeGrpcImpl(connection)).build();
 
     server.start();
 
