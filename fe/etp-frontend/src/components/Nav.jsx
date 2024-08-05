@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setQuantity, setStockSearch, resetState } from "../store/slice";
 import sampleData from "../assets/sampleData.json";
+import exchange from "../clients/client.js";
 
 const Nav = () => {
   const stock = useSelector((state) => state.stock.value);
@@ -49,7 +50,12 @@ const Nav = () => {
         />
       </div>
       <div className="grid grid-cols-3 gap-4 max-w-80">
-        <button className="bg-green-700 py-2 border-0 hover:bg-green-600">
+        <button
+          onClick={() => {
+            exchange.createOrder();
+          }}
+          className="bg-green-700 py-2 border-0 hover:bg-green-600"
+        >
           Buy
         </button>
         <button className="bg-red-700 py-2 border-0 hover:bg-red-600">
