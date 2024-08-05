@@ -1,9 +1,34 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setQuantity, setStockSearch, resetState } from "../store/slice";
 import sampleData from "../assets/sampleData.json";
-import exchange from "../clients/client.js";
+import exchangeService from "../clients/exchangeService";
+import { useEffect, useState } from "react";
+import { CreateOrderRequest } from "../clients/exchange";
 
 const Nav = () => {
+  const [response, setResponse] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const request = {
+          price: 10,
+          side: 0,
+          quantity: 14,
+        };
+
+        const { response } = await exchangeService.createOrder(request)
+          .response;
+        setResponse(response);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const stock = useSelector((state) => state.stock.value);
   const dispatch = useDispatch();
 
@@ -24,6 +49,7 @@ const Nav = () => {
           Total:{" "}
           {<span className="font-bold">${stock.price * stock.quantity}</span>}
         </p>
+        <p className="text-lg">{response}</p>
         <input
           type="text"
           id="search"

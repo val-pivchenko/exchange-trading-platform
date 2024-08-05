@@ -1,10 +1,13 @@
+import exchange_pb from "./exchange_pb.js";
+import exchange_grpc_web_pb from "./exchange_grpc_web_pb.js";
+
 const {
   CreateOrderRequest,
   CreateOrderResponse,
   GetOrdersRequest,
   GetOrdersResponse,
-} = require("./exchange_pb.js");
-const { ExchangeClient } = require("./exchange_grpc_web_pb.js");
+} = exchange_pb;
+const { ExchangeClient } = exchange_grpc_web_pb;
 
 var exchange = new ExchangeClient("http://localhost:8999");
 
@@ -14,8 +17,8 @@ request.setMessage("Hello World!");
 exchange.createOrder(request, {}, function (err, response) {
   try {
     console.log(response);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
   }
 });
 
