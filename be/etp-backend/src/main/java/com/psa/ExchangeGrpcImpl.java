@@ -31,6 +31,8 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
       CreateOrderRequest request,
       StreamObserver<CreateOrderResponse> responseObserver) {
 
+    System.out.println("Andrew debugging: Entered createOrder.");
+
     StringBuilder sql = new StringBuilder();
     sql.append("INSERT INTO etpdb.order (id, side, limit_price, quantity) VALUES ('");
 
@@ -75,6 +77,8 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
       return;
     }
 
+    System.out.println("Andrew debugging: createOrder responding...");
+
     CreateOrderResponse response = CreateOrderResponse.newBuilder()
         .setId(id.toString())
         .build();
@@ -86,6 +90,8 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
   public void getOrders(
       GetOrdersRequest request,
       StreamObserver<GetOrdersResponse> responseObserver) {
+
+    System.out.println("Andrew debugging: Entered getOrders.");
 
     StringBuilder sql = new StringBuilder();
     sql.append("SELECT * FROM etpdb.order");
@@ -108,6 +114,9 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
             .setQuantity(quantity)
             .build());
       }
+
+      System.out.println("Andrew debugging: getOrders responding...");
+
       responseObserver.onNext(response.build());
       responseObserver.onCompleted();
     } catch(Exception e) {

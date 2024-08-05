@@ -28,6 +28,7 @@ message Order {
   Side side = 3;
   int32 quantity = 4;
   google.protobuf.Timestamp timestamp = 5;
+
 }
 
 message GetOrdersResponse {
