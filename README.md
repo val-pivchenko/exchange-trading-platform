@@ -14,7 +14,7 @@ TODO
 
 ### Building and running from a clean slate (_e.g._ first time, or troubleshooting)
 
-1. Right-click **pom.xml** and do Maven > Reload project, and wait for progress bars in the lower-right to complete. Afterward, make sure there are no errors (red underlines) in **pom.xml**. ***What this does:** The dependencies listed in your **pom.xml** are downloaded from the Internet and cached in your home directory under **~/.m2/**. Sometimes this cache falls out of sync. This reloads the cache from scratch.
+1. Right-click **pom.xml** and do Maven > Reload project, and wait for progress bars in the lower-right to complete. Afterward, make sure there are no errors (red underlines) in **pom.xml**. **What this does:** The dependencies listed in your **pom.xml** are downloaded from the Internet and cached in your home directory under **~/.m2/**. Sometimes this cache falls out of sync. This reloads the cache from scratch.
 
 1. Do `mvn generate-sources`. **What this does:** This generates code in the **target/** directory. Sometimes this directory can get corrupted. When it doubt, just delete the entire **target/** directory and run this command again.
 
