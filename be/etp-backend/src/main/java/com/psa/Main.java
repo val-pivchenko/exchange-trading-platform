@@ -13,7 +13,7 @@ import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 public class Main {
 
@@ -33,22 +33,20 @@ public class Main {
 
       // MySQL, testcontainers, and Docker.
 
-      MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.26")
+      PostgreSQLContainer<?> postgresql = new PostgreSQLContainer<>("postgres:13.3")
           .withDatabaseName("etpdb")
           .withUsername("testuser")
           .withPassword("testpass");
 
-      mysql.start();
+      postgresql.start();
 
-      String jdbcUrl = mysql.getJdbcUrl();
-      String username = mysql.getUsername();
-      String password = mysql.getPassword();
+      String jdbcUrl = postgresql.getJdbcUrl();
+      String username = postgresql.getUsername();
+      String password = postgresql.getPassword();
 
       // JDBC.
 
-      System.out.println("Connecting to MySQL/Docker container over JDBC...");
-
-      Class.forName("com.mysql.cj.jdbc.Driver");
+      System.out.println("Connecting to PostgreSQL/Docker container over JDBC...");
 
       connection = DriverManager.getConnection(jdbcUrl, username, password);
 
@@ -69,7 +67,7 @@ public class Main {
 
       Statement statement = connection.createStatement();
 
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM etpdb.order LIMIT 10");
+      ResultSet resultSet = statement.executeQuery("SELECT * FROM public.order LIMIT 10");
 
       while (resultSet.next()) {
         String id = resultSet.getString("id");
