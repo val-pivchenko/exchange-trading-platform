@@ -45,7 +45,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
         side = 'B';
         break;
       case SELL:
-        id.append('s');
+        id.append('S');
         side = 'S';
         break;
       default:
