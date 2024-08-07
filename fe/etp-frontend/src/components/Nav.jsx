@@ -1,33 +1,38 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setQuantity, setStockSearch, resetState } from "../store/slice";
+import {
+  setQuantity,
+  setStockSearch,
+  setLimitPrice,
+  resetState,
+} from "../store/stockSlice";
 import sampleData from "../assets/sampleData.json";
 import exchangeService from "../clients/exchangeService";
 import { useEffect, useState } from "react";
 import { CreateOrderRequest } from "../clients/exchange";
 
 const Nav = () => {
-  const [response, setResponse] = useState();
+  // const [response, setResponse] = useState();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const request = {
-          price: 10,
-          side: 0,
-          quantity: 14,
-        };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const request = {
+  //         price: 10,
+  //         side: 0,
+  //         quantity: 14,
+  //       };
 
-        const { response } = await exchangeService.createOrder(request)
-          .response;
-        setResponse(response);
-        console.log(response);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  //       const { response } = await exchangeService.createOrder(request)
+  //         .response;
+  //       setResponse(response);
+  //       console.log(response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const stock = useSelector((state) => state.stock.value);
   const dispatch = useDispatch();
@@ -43,13 +48,10 @@ const Nav = () => {
           Stock: {<span className="font-bold">{stock.name}</span>}
         </p>
         <p className="text-lg">
-          Price per share: {<span className="font-bold">${stock.price}</span>}
-        </p>
-        <p className="text-lg">
           Total:{" "}
           {<span className="font-bold">${stock.price * stock.quantity}</span>}
         </p>
-        <p className="text-lg">{response}</p>
+        {/* <p className="text-lg">{response}</p> */}
         <input
           type="text"
           id="search"
@@ -62,8 +64,17 @@ const Nav = () => {
           }}
           className="py-2 px-4 rounded-lg"
         />
-        <div></div>
         {/* <label htmlFor="quantity">Quantity</label> */}
+        <input
+          type="number"
+          id="limit-price"
+          placeholder="Limit Price"
+          value={stock.limitPrice}
+          onChange={(e) => {
+            dispatch(setLimitPrice(e.target.value));
+          }}
+          className="py-2 px-4 rounded-lg"
+        />
         <input
           type="number"
           id="quantity"
