@@ -5,7 +5,8 @@ import {
   setLimitPrice,
   resetState,
 } from "../store/stockSlice";
-import sampleData from "../assets/sampleData.json";
+import sampleStockData from "../assets/sampleStockData.json";
+
 import exchangeService from "../clients/exchangeService";
 import { useEffect, useState } from "react";
 import { CreateOrderRequest } from "../clients/exchange";
@@ -38,7 +39,7 @@ const Nav = () => {
   const dispatch = useDispatch();
 
   const filterSearch = (searchValue) => {
-    sampleData.filter((data) => data.name.includes(searchValue));
+    sampleStockData.filter((data) => data.name.includes(searchValue));
   };
 
   return (
@@ -87,12 +88,7 @@ const Nav = () => {
         />
       </div>
       <div className="grid grid-cols-3 gap-4 max-w-80">
-        <button
-          onClick={() => {
-            exchange.createOrder();
-          }}
-          className="bg-green-700 py-2 border-0 hover:bg-green-600"
-        >
+        <button className="bg-green-700 py-2 border-0 hover:bg-green-600">
           Buy
         </button>
         <button className="bg-red-700 py-2 border-0 hover:bg-red-600">
