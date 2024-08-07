@@ -5,24 +5,29 @@ const OrderBook = () => {
   const [buyData, setBuyData] = useState([]);
   const [sellData, setSellData] = useState([]);
   const [buyRatio, setBuyRatio] = useState();
+  const [sellRatio, setSellRatio] = useState();
 
   useEffect(() => {
-    const setDataAndRatio = async () => {
-      setBuyData(
-        orderBookData
-          .filter((record) => record.side === "BUY")
-          .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp))
-      );
-      setSellData(
-        orderBookData
-          .filter((record) => record.side === "SELL")
-          .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp))
-      );
+    const filteredBuyData = orderBookData
+      .filter((record) => record.side === "BUY")
+      .sort((x, y) => y.price - x.price);
+    // .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp));
+    setBuyData(filteredBuyData);
 
-      setBuyRatio((buyData.length * 100) / (buyData.length + sellData.length));
-    };
-    setDataAndRatio();
+    const filteredSellData = orderBookData
+      .filter((record) => record.side === "SELL")
+      .sort((x, y) => x.price - y.price);
+    setSellData(filteredSellData);
   }, []);
+
+  useEffect(() => {
+    if (buyData.length + sellData.length > 0) {
+      setBuyRatio((buyData.length * 100) / (buyData.length + sellData.length));
+      setSellRatio(
+        100 - (buyData.length * 100) / (buyData.length + sellData.length)
+      );
+    }
+  }, [buyData, sellData]);
 
   return (
     <div className="grid justify-center w-screen mt-12">
@@ -76,8 +81,14 @@ const OrderBook = () => {
         </div>
       </div>
       <div className="w-full mt-8 flex">
-        <div className={`w-[${buyRatio}%] border-2 border-green-700`}></div>
-        <div className={`w-[${100 - buyRatio}%] border-2 border-red-700`}></div>
+        <div
+          className="border-2 border-green-700"
+          style={{ width: buyRatio + "%" }}
+        ></div>
+        <div
+          className="border-2 border-red-700"
+          style={{ width: sellRatio + "%" }}
+        ></div>
       </div>
     </div>
   );
