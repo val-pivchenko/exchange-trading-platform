@@ -34,7 +34,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
     System.out.println("Andrew debugging: Entered createOrder.");
 
     StringBuilder sql = new StringBuilder();
-    sql.append("INSERT INTO etpdb.order (id, side, limit_price, quantity) VALUES ('");
+    sql.append("INSERT INTO public.order (id, side, limit_price, quantity) VALUES ('");
 
     StringBuilder id = new StringBuilder();
     char side;
@@ -94,7 +94,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
     System.out.println("Andrew debugging: Entered getOrders.");
 
     StringBuilder sql = new StringBuilder();
-    sql.append("SELECT * FROM etpdb.order");
+    sql.append("SELECT * FROM public.order");
 
     try {
       System.out.println("Running SQL statement: " + sql);
