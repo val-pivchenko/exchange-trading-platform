@@ -12,20 +12,19 @@ import { useEffect, useState } from "react";
 import { Side } from "../clients/exchange";
 
 const Nav = () => {
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState([]);
 
   // CREATE ORDER - REFACTOR LATER
   useEffect(() => {
     const fetchData = async () => {
       try {
         const request = {
-          side: Side.BUY,
-          price: 5,
-          quantity: 5,
+          side: Side.SELL,
+          price: 12,
+          quantity: 22,
         };
 
-        const { response } = await exchangeService.createOrder(request)
-          .response;
+        const { response } = await exchangeService.createOrder(request);
         setResponse(response);
         console.log(response);
       } catch (error) {
@@ -37,19 +36,22 @@ const Nav = () => {
   }, []);
 
   // GET ORDERS - REFACTOR LATER
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const { response } = await exchangeService.getOrders().response;
-  //       setResponse(response.orders);
-  //       console.log(response.orders);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { response } = await exchangeService.getOrders({
+          broker: "",
+          symbol: "",
+        });
+        setResponse(response);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   const stock = useSelector((state) => state.stock.value);
   const dispatch = useDispatch();
@@ -68,7 +70,6 @@ const Nav = () => {
           Total:{" "}
           {<span className="font-bold">${stock.price * stock.quantity}</span>}
         </p>
-        <p className="text-lg">{response}</p>
         <input
           type="text"
           id="search"
