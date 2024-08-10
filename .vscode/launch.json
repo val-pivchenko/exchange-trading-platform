@@ -6,17 +6,17 @@
     "configurations": [
         {
             "name": "Attach to Chrome",
-            "port": 9222,
+            "port": 5173,
             "request": "attach",
             "type": "chrome",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}/fe/etp-frontend"
         },
         {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:5173",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}/fe/etp-frontend"
         }
     ]
 }

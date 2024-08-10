@@ -9,38 +9,23 @@ import sampleStockData from "../assets/sampleStockData.json";
 
 import exchangeService from "../clients/exchangeService";
 import { useEffect, useState } from "react";
-import { CreateOrderRequest, Side } from "../clients/exchange";
+import { Side } from "../clients/exchange";
 
 const Nav = () => {
   const [response, setResponse] = useState();
 
   // CREATE ORDER - REFACTOR LATER
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const request = {
-  //         price: 11,
-  //         side: Side.BUY,
-  //         quantity: 16,
-  //       };
-
-  //       const { response } = await exchangeService.createOrder(request)
-  //         .response;
-  //       // setResponse(response);
-  //       console.log(response);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  // GET ORDERS - REFACTOR LATER
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { response } = await exchangeService.getOrders().response;
+        const request = {
+          side: Side.BUY,
+          price: 5,
+          quantity: 5,
+        };
+
+        const { response } = await exchangeService.createOrder(request)
+          .response;
         setResponse(response);
         console.log(response);
       } catch (error) {
@@ -50,6 +35,21 @@ const Nav = () => {
 
     fetchData();
   }, []);
+
+  // GET ORDERS - REFACTOR LATER
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const { response } = await exchangeService.getOrders().response;
+  //       setResponse(response.orders);
+  //       console.log(response.orders);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   const stock = useSelector((state) => state.stock.value);
   const dispatch = useDispatch();
