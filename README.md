@@ -7,6 +7,13 @@
 
 2. npm run dev
 
+### Testing with Vitest
+1. cd .\fe\etp-frontend\
+
+2. npm run test
+![image](https://github.com/user-attachments/assets/34d3f302-4dbe-4023-9cd1-e577999bacd4)
+
+
 ## Backend
 
 ### Setup
