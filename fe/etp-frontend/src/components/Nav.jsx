@@ -6,21 +6,12 @@ import {
   setLimitPrice,
   resetState,
 } from "../store/stockSlice";
-import { createOrderThunk } from "../store/thunks";
-import { CreateOrderRequest } from "../clients/exchange";
-import { setOrders } from "../store/orderBookSlice";
-import sampleStockData from "../assets/sampleStockData.json";
-
-import exchangeService from "../clients/exchangeService";
-import { useEffect, useState } from "react";
+import { createOrderAndRefreshThunk } from "../store/thunks";
 import { Side } from "../clients/exchange";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const stock = useSelector((state) => state.stock.value);
-  const orderBook = useSelector((state) => state.orderBook.orders);
-
-  const [response, setResponse] = useState();
 
   const createOrder = (side) => {
     return () => {
@@ -31,7 +22,7 @@ const Nav = () => {
         side: side,
         quantity: stock.quantity,
       };
-      dispatch(createOrderThunk(request));
+      dispatch(createOrderAndRefreshThunk(request));
       dispatch(resetState());
     };
   };
@@ -44,23 +35,31 @@ const Nav = () => {
         </p>
         <p className="text-lg">
           Total:{" "}
-          {<span className="font-bold">${stock.price * stock.quantity}</span>}
+          {stock.limitPrice && stock.quantity ? (
+            <span className="font-bold">
+              ${stock.limitPrice * stock.quantity}
+            </span>
+          ) : (
+            <span className="font-bold">$0</span>
+          )}
         </p>
         <input
           type="text"
           id="search"
           placeholder="Search for a stock..."
           className="py-2 px-4 rounded-lg"
-        />{" "}
-        <input
-          type="number"
-          id="limit-price"
-          placeholder="Limit Price"
-          onChange={(e) => {
-            dispatch(setLimitPrice(e.target.value));
-          }}
-          className="py-2 px-4 rounded-lg"
         />
+        <div className="relative grid">
+          <input
+            type="number"
+            id="limit-price"
+            placeholder="Limit Price"
+            onChange={(e) => {
+              dispatch(setLimitPrice(e.target.value));
+            }}
+            className="py-2 px-4 rounded-lg w-full"
+          />
+        </div>
         <input
           type="number"
           id="quantity"

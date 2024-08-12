@@ -28,3 +28,20 @@ export const getOrdersThunk = createAsyncThunk(
     }
   }
 );
+
+export const createOrderAndRefreshThunk = createAsyncThunk(
+  "order/createOrderAndRefresh",
+  async (request, { dispatch, rejectWithValue }) => {
+    try {
+      // Create the order
+      const createResponse = await dispatch(createOrderThunk(request)).unwrap();
+
+      // Refresh the orders list after order creation
+      await dispatch(getOrdersThunk(request));
+
+      return createResponse;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
