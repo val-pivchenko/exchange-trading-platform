@@ -11,8 +11,8 @@
 1. cd .\fe\etp-frontend\
 
 2. npm run test
-![image](https://github.com/user-attachments/assets/34d3f302-4dbe-4023-9cd1-e577999bacd4)
-
+<img src="[https://i.imgur.com/ZWnhY9T.png](https://github.com/user-attachments/assets/34d3f302-4dbe-4023-9cd1-e577999bacd4
+)" width=50% height=50%>
 
 ## Backend
 
