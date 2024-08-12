@@ -1,37 +1,68 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createOrderThunk } from "./thunks";
 
 export const stockSlice = createSlice({
   name: "stock",
   initialState: {
     value: {
-      quantity: null,
-      side: "",
+      broker: "",
+      symbol: "",
+      quantity: 0,
+      side: 0,
       price: 0,
-      limitPrice: null,
+      limitPrice: 0,
       name: "",
       stockSearch: "",
     },
   },
   reducers: {
     setQuantity: (state, action) => {
-      state.value.quantity = action.payload;
+      state.value.quantity = Number(action.payload);
+    },
+    setSide: (state, action) => {
+      state.value.side = Number(action.payload);
     },
     setLimitPrice: (state, action) => {
-      state.value.limitPrice = action.payload;
+      state.value.limitPrice = Number(action.payload);
     },
     setStockSearch: (state, action) => {
       state.value.stockSearch = action.payload;
     },
     resetState: (state) => {
-      state.value.quantity = "";
-      state.value.price = "";
-      state.value.limitPrice = "";
+      document.querySelector("#quantity").value = null;
+      document.querySelector("#limit-price").value = null;
+      state.value.quantity = 0;
+      state.value.price = 0;
+      state.value.limitPrice = 0;
+      state.value.side = 0;
       state.value.name = "";
       state.value.stockSearch = "";
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createOrderThunk.pending, (state) => {
+        state.orderStatus = "loading";
+        state.error = null;
+      })
+      .addCase(createOrderThunk.fulfilled, (state, action) => {
+        state.orderStatus = "succeeded";
+        state.value.quantity = action.payload.quantity;
+        state.value.price = action.payload.price;
+        state.value.side = action.payload.side;
+      })
+      .addCase(createOrderThunk.rejected, (state, action) => {
+        state.orderStatus = "failed";
+        state.error = action.payload;
+      });
+  },
 });
 
-export const { setQuantity, setLimitPrice, setStockSearch, resetState } =
-  stockSlice.actions;
+export const {
+  setQuantity,
+  setSide,
+  setLimitPrice,
+  setStockSearch,
+  resetState,
+} = stockSlice.actions;
 export default stockSlice.reducer;

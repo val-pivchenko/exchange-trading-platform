@@ -1,24 +1,34 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getOrdersThunk } from "../store/thunks";
+import { Side } from "../clients/exchange";
 import orderBookData from "../assets/sampleOrderBookData.json";
 
 const OrderBook = () => {
+  const dispatch = useDispatch();
+  const orderBook = useSelector((state) => state.orderBook.orders);
+
   const [buyData, setBuyData] = useState([]);
   const [sellData, setSellData] = useState([]);
   const [buyRatio, setBuyRatio] = useState();
   const [sellRatio, setSellRatio] = useState();
 
   useEffect(() => {
-    const filteredBuyData = orderBookData
-      .filter((record) => record.side === "BUY")
+    const request = {
+      broker: "",
+      symbol: "",
+    };
+    dispatch(getOrdersThunk(request));
+    const filteredBuyData = orderBook
+      .filter((record) => record.side === Side.BUY)
       .sort((x, y) => y.price - x.price);
-    // .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp));
     setBuyData(filteredBuyData);
 
-    const filteredSellData = orderBookData
-      .filter((record) => record.side === "SELL")
+    const filteredSellData = orderBook
+      .filter((record) => record.side === Side.SELL)
       .sort((x, y) => x.price - y.price);
     setSellData(filteredSellData);
-  }, []);
+  }, [dispatch, orderBook]);
 
   useEffect(() => {
     if (buyData.length + sellData.length > 0) {

@@ -1,41 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getOrdersThunk } from "./thunks";
 
-// export const ordersApi = createApi({
-//   reducerPath: "ordersApi",
-//   baseQuery: fetchBaseQuery(),
-// });
+export const orderBookSlice = createSlice({
+  name: "orderBook",
+  initialState: {
+    orders: [],
+    status: "idle", // Added to track status of fetch
+    error: null, // Added to track errors
+  },
+  reducers: {
+    setOrders: (state, action) => {
+      state.orders = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getOrdersThunk.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.orders = action.payload;
+      })
+      .addCase(getOrdersThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
+});
 
-// export const orderBookSlice = createSlice({
-//   name: "orderBook",
-//   initialState: {
-//     value: {
-//       symbol: "",
-//       id: "",
-//       price: 0,
-//       side: "",
-//       quantity: null,
-//     },
-//   },
-//   reducers: {
-//     // setQuantity: (state, action) => {
-//     //   state.value.quantity = action.payload;
-//     // },
-//     // setLimitPrice: (state, action) => {
-//     //   state.value.limitPrice = action.payload;
-//     // },
-//     // setStockSearch: (state, action) => {
-//     //   state.value.stockSearch = action.payload;
-//     // },
-//     // resetState: (state) => {
-//     //   state.value.quantity = "";
-//     //   state.value.price = "";
-//     //   state.value.limitPrice = "";
-//     //   state.value.name = "";
-//     //   state.value.stockSearch = "";
-//     // },
-//   },
-// });
-
-// export const {} = orderBookSlice.actions;
-// export default orderBookSlice.reducer;
+export const { setOrders } = orderBookSlice.actions;
+export default orderBookSlice.reducer;
