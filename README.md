@@ -33,4 +33,38 @@
 
 ### Quick build and run
 
-If you're not having any issues, during development you can skip all of the above and just Run Main (also accessible via the green-outline play button in the upper-right)—most of the time it will automatically recompile changes. If a change doesn't appear to have applied, go backwards in the above steps, _e.g._ try a `mvn clean compile` first, and if that doesn't work, then start from `mvn generate-sources`, etc.
+If you're not having any issues, during development you can skip all of the above and just Run Main (also accessible via the green-outline play button in the upper-right)—most of the time it will automatically recompile changes. If a change doesn't appear to have applied, go backwards in the above steps, _e.g._ try a `mvn clean compile` first, and if that doesn't work, then start from `mvn generate-sources`, etc. Make sure Docker is running.
+
+### Running from command-line, not IntelliJ
+
+Make sure Docker is running.
+
+```
+mvn exec:java -Dexec.mainClass="com.psa.Main"
+```
+
+### Testing with `grpcurl`
+
+While the server is running:
+
+```
+grpcurl -plaintext -d '{
+  "broker": "043",
+  "symbol": "AAPL",
+  "price": 150.50,
+  "side": "BUY",
+  "quantity": 100
+}' localhost:8999 com.psa.Exchange/CreateOrder
+```
+
+```
+grpcurl -plaintext -d '{
+  "symbol": "AAPL",
+  "broker": "",
+  "status": "OPEN"
+}' localhost:8999 com.psa.Exchange/GetOrders
+```
+
+### Running the HTTP/2 proxy
+
+TODO
