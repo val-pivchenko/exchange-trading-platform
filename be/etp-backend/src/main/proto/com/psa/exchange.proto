@@ -4,17 +4,31 @@ package com.psa;
 
 import "google/protobuf/timestamp.proto";
 
+enum OrderType {
+  UNSET_ORDER_TYPE = 0;
+  LIMIT = 1;
+  MARKET = 2;
+}
+
 enum Side {
-  BUY = 0;
-  SELL = 1;
+  UNSET_SIDE = 0;
+  BUY = 1;
+  SELL = 2;
+}
+
+enum OrderStatus {
+  UNSET_ORDER_STATUS = 0;
+  OPEN = 1;
+  COMPLETE = 2;
 }
 
 message CreateOrderRequest {
   string broker = 1;
   string symbol = 2;
-  double price = 3;
-  Side side = 4;
-  int32 quantity = 5;
+  OrderType type = 3;
+  double price = 4;
+  Side side = 5;
+  int32 quantity = 6;
 }
 
 message CreateOrderResponse {
@@ -24,41 +38,28 @@ message CreateOrderResponse {
 message GetOrdersRequest {
   string broker = 1;
   string symbol = 2;
+  OrderStatus status = 3;
 }
 
 message Order {
   string id = 1;
-  string broker = 2;
-  string symbol = 3;
-  double price = 4;
-  Side side = 5;
-  int32 quantity = 6;
-  google.protobuf.Timestamp timestamp = 7;
+  OrderStatus status = 2;
+  string broker = 3;
+  string symbol = 4;
+  OrderType type = 5;
+  double price = 6;
+  Side side = 7;
+  int32 quantity = 8;
+  int32 quantityFilled = 9;
+  int32 quantityCancelled = 10;
+  google.protobuf.Timestamp timestamp = 11;
 }
 
 message GetOrdersResponse {
   repeated Order orders = 1;
 }
 
-message GetMarketDepthRequest {
-  string symbol = 1;
-}
-
-message GetMarketDepthResponse {
-  repeated Order orders = 1;
-}
-
-message GetSymbolRequest {
-  string symbol = 1;
-}
-
-message GetSymbolResponse {
-  double last_trade = 1;
-}
-
 service Exchange {
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
   rpc GetOrders(GetOrdersRequest) returns (GetOrdersResponse);
-  rpc GetMarketDepth(GetMarketDepthRequest) returns (GetMarketDepthResponse);
-  rpc GetSymbol(GetSymbolRequest) returns (GetSymbolResponse);
 }
