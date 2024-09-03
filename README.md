@@ -47,22 +47,28 @@ mvn exec:java -Dexec.mainClass="com.psa.Main"
 
 While the server is running:
 
-```
-grpcurl -plaintext -d '{
-  "broker": "043",
-  "symbol": "AAPL",
-  "price": 150.50,
-  "side": "BUY",
-  "quantity": 100
-}' localhost:8999 com.psa.Exchange/CreateOrder
-```
+**Buy 100 AAPL**
 
 ```
-grpcurl -plaintext -d '{
-  "symbol": "AAPL",
-  "broker": "",
-  "status": "OPEN"
-}' localhost:8999 com.psa.Exchange/GetOrders
+grpcurl -plaintext -d '{  "broker": "043",  "symbol": "AAPL",  "type": "LIMIT", "price": 150.50,  "side": "BUY",  "quantity": 100}' localhost:8999 com.psa.Exchange/CreateOrder
+```
+
+**Sell 150 AAPL**
+
+```
+grpcurl -plaintext -d '{  "broker": "087",  "symbol": "AAPL",  "type": "LIMIT",  "price": 150.00,  "side": "SELL",  "quantity": 150}' localhost:8999 com.psa.Exchange/CreateOrder
+```
+
+**See order book**
+
+```
+grpcurl -plaintext -d '{  "symbol": "AAPL",  "broker": "",  "status": "OPEN"}' localhost:8999 com.psa.Exchange/GetOrders
+```
+
+**Buy 100 AAPL**
+
+```
+grpcurl -plaintext -d '{  "broker": "043",  "symbol": "AAPL",  "type": "LIMIT",  "price": 150.25,  "side": "BUY",  "quantity": 100}' localhost:8999 com.psa.Exchange/CreateOrder
 ```
 
 ### Running the HTTP/2 proxy
