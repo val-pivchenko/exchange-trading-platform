@@ -3,15 +3,17 @@
 ## Frontend
 
 ### Run locally
+
 1. cd .\fe\etp-frontend\
 
 2. npm run dev
 
 ### Testing with Vitest
+
 1. cd .\fe\etp-frontend\
 
 2. npm run test
-<img src="https://github.com/user-attachments/assets/34d3f302-4dbe-4023-9cd1-e577999bacd4" width=50% height=50%>
+   <img src="https://github.com/user-attachments/assets/34d3f302-4dbe-4023-9cd1-e577999bacd4" width=50% height=50%>
 
 ## Backend
 
@@ -50,7 +52,7 @@ While the server is running:
 **Buy 100 AAPL**
 
 ```
-grpcurl -plaintext -d '{  "broker": "043",  "symbol": "AAPL",  "type": "LIMIT", "price": 150.50,  "side": "BUY",  "quantity": 100}' localhost:8999 com.psa.Exchange/CreateOrder
+grpcurl -plaintext -d '{  \"broker\": \"043\",  \"symbol\": \"AAPL\",  \"type\": \"LIMIT\", \"price\": 150.50,  \"side\": \"BUY\",  \"quantity\": 100}' localhost:8999 com.psa.Exchange/CreateOrder
 ```
 
 **Sell 150 AAPL**

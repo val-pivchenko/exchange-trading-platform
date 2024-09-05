@@ -4,10 +4,6 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Exchange } from "./exchange";
-import type { GetSymbolResponse } from "./exchange";
-import type { GetSymbolRequest } from "./exchange";
-import type { GetMarketDepthResponse } from "./exchange";
-import type { GetMarketDepthRequest } from "./exchange";
 import type { GetOrdersResponse } from "./exchange";
 import type { GetOrdersRequest } from "./exchange";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -27,14 +23,6 @@ export interface IExchangeClient {
      * @generated from protobuf rpc: GetOrders(com.psa.GetOrdersRequest) returns (com.psa.GetOrdersResponse);
      */
     getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse>;
-    /**
-     * @generated from protobuf rpc: GetMarketDepth(com.psa.GetMarketDepthRequest) returns (com.psa.GetMarketDepthResponse);
-     */
-    getMarketDepth(input: GetMarketDepthRequest, options?: RpcOptions): UnaryCall<GetMarketDepthRequest, GetMarketDepthResponse>;
-    /**
-     * @generated from protobuf rpc: GetSymbol(com.psa.GetSymbolRequest) returns (com.psa.GetSymbolResponse);
-     */
-    getSymbol(input: GetSymbolRequest, options?: RpcOptions): UnaryCall<GetSymbolRequest, GetSymbolResponse>;
 }
 /**
  * @generated from protobuf service com.psa.Exchange
@@ -58,19 +46,5 @@ export class ExchangeClient implements IExchangeClient, ServiceInfo {
     getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetOrdersRequest, GetOrdersResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetMarketDepth(com.psa.GetMarketDepthRequest) returns (com.psa.GetMarketDepthResponse);
-     */
-    getMarketDepth(input: GetMarketDepthRequest, options?: RpcOptions): UnaryCall<GetMarketDepthRequest, GetMarketDepthResponse> {
-        const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetMarketDepthRequest, GetMarketDepthResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
-     * @generated from protobuf rpc: GetSymbol(com.psa.GetSymbolRequest) returns (com.psa.GetSymbolResponse);
-     */
-    getSymbol(input: GetSymbolRequest, options?: RpcOptions): UnaryCall<GetSymbolRequest, GetSymbolResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetSymbolRequest, GetSymbolResponse>("unary", this._transport, method, opt, input);
     }
 }

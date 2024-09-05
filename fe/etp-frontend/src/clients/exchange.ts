@@ -25,15 +25,19 @@ export interface CreateOrderRequest {
      */
     symbol: string;
     /**
-     * @generated from protobuf field: double price = 3;
+     * @generated from protobuf field: com.psa.OrderType type = 3;
+     */
+    type: OrderType;
+    /**
+     * @generated from protobuf field: double price = 4;
      */
     price: number;
     /**
-     * @generated from protobuf field: com.psa.Side side = 4;
+     * @generated from protobuf field: com.psa.Side side = 5;
      */
     side: Side;
     /**
-     * @generated from protobuf field: int32 quantity = 5;
+     * @generated from protobuf field: int32 quantity = 6;
      */
     quantity: number;
 }
@@ -58,6 +62,10 @@ export interface GetOrdersRequest {
      * @generated from protobuf field: string symbol = 2;
      */
     symbol: string;
+    /**
+     * @generated from protobuf field: com.psa.OrderStatus status = 3;
+     */
+    status: OrderStatus;
 }
 /**
  * @generated from protobuf message com.psa.Order
@@ -68,27 +76,43 @@ export interface Order {
      */
     id: string;
     /**
-     * @generated from protobuf field: string broker = 2;
+     * @generated from protobuf field: com.psa.OrderStatus status = 2;
+     */
+    status: OrderStatus;
+    /**
+     * @generated from protobuf field: string broker = 3;
      */
     broker: string;
     /**
-     * @generated from protobuf field: string symbol = 3;
+     * @generated from protobuf field: string symbol = 4;
      */
     symbol: string;
     /**
-     * @generated from protobuf field: double price = 4;
+     * @generated from protobuf field: com.psa.OrderType type = 5;
+     */
+    type: OrderType;
+    /**
+     * @generated from protobuf field: double price = 6;
      */
     price: number;
     /**
-     * @generated from protobuf field: com.psa.Side side = 5;
+     * @generated from protobuf field: com.psa.Side side = 7;
      */
     side: Side;
     /**
-     * @generated from protobuf field: int32 quantity = 6;
+     * @generated from protobuf field: int32 quantity = 8;
      */
     quantity: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp timestamp = 7;
+     * @generated from protobuf field: int32 quantityFilled = 9;
+     */
+    quantityFilled: number;
+    /**
+     * @generated from protobuf field: int32 quantityCancelled = 10;
+     */
+    quantityCancelled: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp timestamp = 11;
      */
     timestamp?: Timestamp;
 }
@@ -102,53 +126,55 @@ export interface GetOrdersResponse {
     orders: Order[];
 }
 /**
- * @generated from protobuf message com.psa.GetMarketDepthRequest
+ * @generated from protobuf enum com.psa.OrderType
  */
-export interface GetMarketDepthRequest {
+export enum OrderType {
     /**
-     * @generated from protobuf field: string symbol = 1;
+     * @generated from protobuf enum value: UNSET_ORDER_TYPE = 0;
      */
-    symbol: string;
-}
-/**
- * @generated from protobuf message com.psa.GetMarketDepthResponse
- */
-export interface GetMarketDepthResponse {
+    UNSET_ORDER_TYPE = 0,
     /**
-     * @generated from protobuf field: repeated com.psa.Order orders = 1;
+     * @generated from protobuf enum value: LIMIT = 1;
      */
-    orders: Order[];
-}
-/**
- * @generated from protobuf message com.psa.GetSymbolRequest
- */
-export interface GetSymbolRequest {
+    LIMIT = 1,
     /**
-     * @generated from protobuf field: string symbol = 1;
+     * @generated from protobuf enum value: MARKET = 2;
      */
-    symbol: string;
-}
-/**
- * @generated from protobuf message com.psa.GetSymbolResponse
- */
-export interface GetSymbolResponse {
-    /**
-     * @generated from protobuf field: double last_trade = 1;
-     */
-    lastTrade: number;
+    MARKET = 2
 }
 /**
  * @generated from protobuf enum com.psa.Side
  */
 export enum Side {
     /**
-     * @generated from protobuf enum value: BUY = 0;
+     * @generated from protobuf enum value: UNSET_SIDE = 0;
      */
-    BUY = 0,
+    UNSET_SIDE = 0,
     /**
-     * @generated from protobuf enum value: SELL = 1;
+     * @generated from protobuf enum value: BUY = 1;
      */
-    SELL = 1
+    BUY = 1,
+    /**
+     * @generated from protobuf enum value: SELL = 2;
+     */
+    SELL = 2
+}
+/**
+ * @generated from protobuf enum com.psa.OrderStatus
+ */
+export enum OrderStatus {
+    /**
+     * @generated from protobuf enum value: UNSET_ORDER_STATUS = 0;
+     */
+    UNSET_ORDER_STATUS = 0,
+    /**
+     * @generated from protobuf enum value: OPEN = 1;
+     */
+    OPEN = 1,
+    /**
+     * @generated from protobuf enum value: COMPLETE = 2;
+     */
+    COMPLETE = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateOrderRequest$Type extends MessageType<CreateOrderRequest> {
@@ -156,15 +182,17 @@ class CreateOrderRequest$Type extends MessageType<CreateOrderRequest> {
         super("com.psa.CreateOrderRequest", [
             { no: 1, name: "broker", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 4, name: "side", kind: "enum", T: () => ["com.psa.Side", Side] },
-            { no: 5, name: "quantity", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 3, name: "type", kind: "enum", T: () => ["com.psa.OrderType", OrderType] },
+            { no: 4, name: "price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 5, name: "side", kind: "enum", T: () => ["com.psa.Side", Side] },
+            { no: 6, name: "quantity", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<CreateOrderRequest>): CreateOrderRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.broker = "";
         message.symbol = "";
+        message.type = 0;
         message.price = 0;
         message.side = 0;
         message.quantity = 0;
@@ -183,13 +211,16 @@ class CreateOrderRequest$Type extends MessageType<CreateOrderRequest> {
                 case /* string symbol */ 2:
                     message.symbol = reader.string();
                     break;
-                case /* double price */ 3:
+                case /* com.psa.OrderType type */ 3:
+                    message.type = reader.int32();
+                    break;
+                case /* double price */ 4:
                     message.price = reader.double();
                     break;
-                case /* com.psa.Side side */ 4:
+                case /* com.psa.Side side */ 5:
                     message.side = reader.int32();
                     break;
-                case /* int32 quantity */ 5:
+                case /* int32 quantity */ 6:
                     message.quantity = reader.int32();
                     break;
                 default:
@@ -210,15 +241,18 @@ class CreateOrderRequest$Type extends MessageType<CreateOrderRequest> {
         /* string symbol = 2; */
         if (message.symbol !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.symbol);
-        /* double price = 3; */
+        /* com.psa.OrderType type = 3; */
+        if (message.type !== 0)
+            writer.tag(3, WireType.Varint).int32(message.type);
+        /* double price = 4; */
         if (message.price !== 0)
-            writer.tag(3, WireType.Bit64).double(message.price);
-        /* com.psa.Side side = 4; */
+            writer.tag(4, WireType.Bit64).double(message.price);
+        /* com.psa.Side side = 5; */
         if (message.side !== 0)
-            writer.tag(4, WireType.Varint).int32(message.side);
-        /* int32 quantity = 5; */
+            writer.tag(5, WireType.Varint).int32(message.side);
+        /* int32 quantity = 6; */
         if (message.quantity !== 0)
-            writer.tag(5, WireType.Varint).int32(message.quantity);
+            writer.tag(6, WireType.Varint).int32(message.quantity);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -281,13 +315,15 @@ class GetOrdersRequest$Type extends MessageType<GetOrdersRequest> {
     constructor() {
         super("com.psa.GetOrdersRequest", [
             { no: 1, name: "broker", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "status", kind: "enum", T: () => ["com.psa.OrderStatus", OrderStatus] }
         ]);
     }
     create(value?: PartialMessage<GetOrdersRequest>): GetOrdersRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.broker = "";
         message.symbol = "";
+        message.status = 0;
         if (value !== undefined)
             reflectionMergePartial<GetOrdersRequest>(this, message, value);
         return message;
@@ -302,6 +338,9 @@ class GetOrdersRequest$Type extends MessageType<GetOrdersRequest> {
                     break;
                 case /* string symbol */ 2:
                     message.symbol = reader.string();
+                    break;
+                case /* com.psa.OrderStatus status */ 3:
+                    message.status = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -321,6 +360,9 @@ class GetOrdersRequest$Type extends MessageType<GetOrdersRequest> {
         /* string symbol = 2; */
         if (message.symbol !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.symbol);
+        /* com.psa.OrderStatus status = 3; */
+        if (message.status !== 0)
+            writer.tag(3, WireType.Varint).int32(message.status);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -336,22 +378,30 @@ class Order$Type extends MessageType<Order> {
     constructor() {
         super("com.psa.Order", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "broker", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
-            { no: 5, name: "side", kind: "enum", T: () => ["com.psa.Side", Side] },
-            { no: 6, name: "quantity", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 7, name: "timestamp", kind: "message", T: () => Timestamp }
+            { no: 2, name: "status", kind: "enum", T: () => ["com.psa.OrderStatus", OrderStatus] },
+            { no: 3, name: "broker", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "type", kind: "enum", T: () => ["com.psa.OrderType", OrderType] },
+            { no: 6, name: "price", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 7, name: "side", kind: "enum", T: () => ["com.psa.Side", Side] },
+            { no: 8, name: "quantity", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 9, name: "quantityFilled", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "quantityCancelled", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 11, name: "timestamp", kind: "message", T: () => Timestamp }
         ]);
     }
     create(value?: PartialMessage<Order>): Order {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.id = "";
+        message.status = 0;
         message.broker = "";
         message.symbol = "";
+        message.type = 0;
         message.price = 0;
         message.side = 0;
         message.quantity = 0;
+        message.quantityFilled = 0;
+        message.quantityCancelled = 0;
         if (value !== undefined)
             reflectionMergePartial<Order>(this, message, value);
         return message;
@@ -364,22 +414,34 @@ class Order$Type extends MessageType<Order> {
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
-                case /* string broker */ 2:
+                case /* com.psa.OrderStatus status */ 2:
+                    message.status = reader.int32();
+                    break;
+                case /* string broker */ 3:
                     message.broker = reader.string();
                     break;
-                case /* string symbol */ 3:
+                case /* string symbol */ 4:
                     message.symbol = reader.string();
                     break;
-                case /* double price */ 4:
+                case /* com.psa.OrderType type */ 5:
+                    message.type = reader.int32();
+                    break;
+                case /* double price */ 6:
                     message.price = reader.double();
                     break;
-                case /* com.psa.Side side */ 5:
+                case /* com.psa.Side side */ 7:
                     message.side = reader.int32();
                     break;
-                case /* int32 quantity */ 6:
+                case /* int32 quantity */ 8:
                     message.quantity = reader.int32();
                     break;
-                case /* google.protobuf.Timestamp timestamp */ 7:
+                case /* int32 quantityFilled */ 9:
+                    message.quantityFilled = reader.int32();
+                    break;
+                case /* int32 quantityCancelled */ 10:
+                    message.quantityCancelled = reader.int32();
+                    break;
+                case /* google.protobuf.Timestamp timestamp */ 11:
                     message.timestamp = Timestamp.internalBinaryRead(reader, reader.uint32(), options, message.timestamp);
                     break;
                 default:
@@ -397,24 +459,36 @@ class Order$Type extends MessageType<Order> {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* string broker = 2; */
+        /* com.psa.OrderStatus status = 2; */
+        if (message.status !== 0)
+            writer.tag(2, WireType.Varint).int32(message.status);
+        /* string broker = 3; */
         if (message.broker !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.broker);
-        /* string symbol = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.broker);
+        /* string symbol = 4; */
         if (message.symbol !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.symbol);
-        /* double price = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.symbol);
+        /* com.psa.OrderType type = 5; */
+        if (message.type !== 0)
+            writer.tag(5, WireType.Varint).int32(message.type);
+        /* double price = 6; */
         if (message.price !== 0)
-            writer.tag(4, WireType.Bit64).double(message.price);
-        /* com.psa.Side side = 5; */
+            writer.tag(6, WireType.Bit64).double(message.price);
+        /* com.psa.Side side = 7; */
         if (message.side !== 0)
-            writer.tag(5, WireType.Varint).int32(message.side);
-        /* int32 quantity = 6; */
+            writer.tag(7, WireType.Varint).int32(message.side);
+        /* int32 quantity = 8; */
         if (message.quantity !== 0)
-            writer.tag(6, WireType.Varint).int32(message.quantity);
-        /* google.protobuf.Timestamp timestamp = 7; */
+            writer.tag(8, WireType.Varint).int32(message.quantity);
+        /* int32 quantityFilled = 9; */
+        if (message.quantityFilled !== 0)
+            writer.tag(9, WireType.Varint).int32(message.quantityFilled);
+        /* int32 quantityCancelled = 10; */
+        if (message.quantityCancelled !== 0)
+            writer.tag(10, WireType.Varint).int32(message.quantityCancelled);
+        /* google.protobuf.Timestamp timestamp = 11; */
         if (message.timestamp)
-            Timestamp.internalBinaryWrite(message.timestamp, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+            Timestamp.internalBinaryWrite(message.timestamp, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -472,200 +546,10 @@ class GetOrdersResponse$Type extends MessageType<GetOrdersResponse> {
  * @generated MessageType for protobuf message com.psa.GetOrdersResponse
  */
 export const GetOrdersResponse = new GetOrdersResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetMarketDepthRequest$Type extends MessageType<GetMarketDepthRequest> {
-    constructor() {
-        super("com.psa.GetMarketDepthRequest", [
-            { no: 1, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<GetMarketDepthRequest>): GetMarketDepthRequest {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.symbol = "";
-        if (value !== undefined)
-            reflectionMergePartial<GetMarketDepthRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetMarketDepthRequest): GetMarketDepthRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string symbol */ 1:
-                    message.symbol = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: GetMarketDepthRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string symbol = 1; */
-        if (message.symbol !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.symbol);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message com.psa.GetMarketDepthRequest
- */
-export const GetMarketDepthRequest = new GetMarketDepthRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetMarketDepthResponse$Type extends MessageType<GetMarketDepthResponse> {
-    constructor() {
-        super("com.psa.GetMarketDepthResponse", [
-            { no: 1, name: "orders", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Order }
-        ]);
-    }
-    create(value?: PartialMessage<GetMarketDepthResponse>): GetMarketDepthResponse {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.orders = [];
-        if (value !== undefined)
-            reflectionMergePartial<GetMarketDepthResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetMarketDepthResponse): GetMarketDepthResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* repeated com.psa.Order orders */ 1:
-                    message.orders.push(Order.internalBinaryRead(reader, reader.uint32(), options));
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: GetMarketDepthResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* repeated com.psa.Order orders = 1; */
-        for (let i = 0; i < message.orders.length; i++)
-            Order.internalBinaryWrite(message.orders[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message com.psa.GetMarketDepthResponse
- */
-export const GetMarketDepthResponse = new GetMarketDepthResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetSymbolRequest$Type extends MessageType<GetSymbolRequest> {
-    constructor() {
-        super("com.psa.GetSymbolRequest", [
-            { no: 1, name: "symbol", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<GetSymbolRequest>): GetSymbolRequest {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.symbol = "";
-        if (value !== undefined)
-            reflectionMergePartial<GetSymbolRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetSymbolRequest): GetSymbolRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string symbol */ 1:
-                    message.symbol = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: GetSymbolRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string symbol = 1; */
-        if (message.symbol !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.symbol);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message com.psa.GetSymbolRequest
- */
-export const GetSymbolRequest = new GetSymbolRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetSymbolResponse$Type extends MessageType<GetSymbolResponse> {
-    constructor() {
-        super("com.psa.GetSymbolResponse", [
-            { no: 1, name: "last_trade", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ }
-        ]);
-    }
-    create(value?: PartialMessage<GetSymbolResponse>): GetSymbolResponse {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.lastTrade = 0;
-        if (value !== undefined)
-            reflectionMergePartial<GetSymbolResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetSymbolResponse): GetSymbolResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* double last_trade */ 1:
-                    message.lastTrade = reader.double();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: GetSymbolResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* double last_trade = 1; */
-        if (message.lastTrade !== 0)
-            writer.tag(1, WireType.Bit64).double(message.lastTrade);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message com.psa.GetSymbolResponse
- */
-export const GetSymbolResponse = new GetSymbolResponse$Type();
 /**
  * @generated ServiceType for protobuf service com.psa.Exchange
  */
 export const Exchange = new ServiceType("com.psa.Exchange", [
     { name: "CreateOrder", options: {}, I: CreateOrderRequest, O: CreateOrderResponse },
-    { name: "GetOrders", options: {}, I: GetOrdersRequest, O: GetOrdersResponse },
-    { name: "GetMarketDepth", options: {}, I: GetMarketDepthRequest, O: GetMarketDepthResponse },
-    { name: "GetSymbol", options: {}, I: GetSymbolRequest, O: GetSymbolResponse }
+    { name: "GetOrders", options: {}, I: GetOrdersRequest, O: GetOrdersResponse }
 ]);

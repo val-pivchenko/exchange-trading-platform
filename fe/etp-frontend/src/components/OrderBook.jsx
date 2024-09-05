@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getOrdersThunk } from "../store/thunks";
+import { OrderStatus } from "../clients/exchange";
 
 const OrderBook = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const OrderBook = () => {
     const request = {
       broker: "",
       symbol: "",
+      status: OrderStatus.OPEN,
     };
     dispatch(getOrdersThunk(request));
   }, [dispatch]);

@@ -7,7 +7,7 @@ import {
   resetState,
 } from "../store/stockSlice";
 import { createOrderAndRefreshThunk } from "../store/thunks";
-import { Side } from "../clients/exchange";
+import { Side, OrderType } from "../clients/exchange";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -16,8 +16,9 @@ const Nav = () => {
   const createOrder = (side) => {
     return () => {
       const request = {
-        broker: "",
-        symbol: "",
+        broker: "123",
+        symbol: "AAPL",
+        type: OrderType.LIMIT,
         price: stock.limitPrice,
         side: side,
         quantity: stock.quantity,
