@@ -34,7 +34,9 @@ const OrderBook = () => {
             <div className="">
               <p>Quantity</p>
               {buyData.map((data) => {
-                return <p key={data.id}>{data.quantity}</p>;
+                return (
+                  <p key={data.id}>{data.quantity - data.quantityFilled}</p>
+                );
               })}
             </div>
             <div className="">

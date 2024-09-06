@@ -125,7 +125,8 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
     System.out.println("*** Entering getOrders().");
 
     StringBuilder sql = new StringBuilder();
-    sql.append("SELECT * FROM public.order");
+    //MODIFY SO IT'S NOT HARDCODED like ${} (use plus);
+    sql.append("SELECT * FROM public.order WHERE status = 'OPEN'");
 
     try {
       System.out.println("*** Running SQL statement: " + sql);
@@ -136,6 +137,9 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
       while (resultSet.next()) {
         String id = resultSet.getString("id");
         OrderStatus status = EnumMappers.fromStringStatus(resultSet.getString("status"));
+//        if(!status.equals(request.getStatus())) {
+//         continue;
+//        }
         String broker = resultSet.getString("broker");
         String symbol = resultSet.getString("symbol");
         Side side = resultSet.getString("side").equals("B") ? BUY : SELL;

@@ -115,6 +115,11 @@ public class TradingEngine {
     }
   }
 
+  private void updateLastPrice(OrderEntity order) {
+    // TO DO
+    // UPDATE LAST PRICE BASED ON LAST EXECUTED TRANSACTION FOR A SYMBOL
+  }
+
   private void createTradeRecord(OrderEntity buy, OrderEntity sell, int quantity, double price) throws SQLException {
     String sql = "INSERT INTO public.trade (id, symbol, buy_order_id, sell_order_id, buy_broker, sell_broker, quantity, price, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement pstmt = db.prepareStatement(sql)) {

@@ -80,4 +80,15 @@
     </createTable>
   </changeSet>
 
+  <changeSet id="4" author="acheong">
+    <addColumn tableName="last_price">
+      <column name="symbol" type="varchar(32)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="double">
+        <constraints nullable="false"/>
+      </column>
+    </addColumn>
+  </changeSet>
+
 </databaseChangeLog>

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import exchangeService from "../clients/exchangeService";
 import { setOrders } from "./orderBookSlice";
+import { OrderStatus } from "../clients/exchange";
 
 export const createOrderThunk = createAsyncThunk(
   "order/createOrder",
@@ -19,6 +20,12 @@ export const getOrdersThunk = createAsyncThunk(
   "order/getOrders",
   async (request, { rejectWithValue }) => {
     try {
+      // For future handle request through UI
+      request = {
+        broker: "",
+        symbol: "",
+        status: OrderStatus.OPEN,
+      };
       const { response } = await exchangeService.getOrders(request);
       console.log(response.orders);
       setOrders(response.orders);
