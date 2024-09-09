@@ -6,7 +6,7 @@ import { OrderStatus } from "../clients/exchange";
 const MarketDepth = () => {
   const dispatch = useDispatch();
   const { buyData, sellData, buyRatio, sellRatio, orders } = useSelector(
-    (state) => state.orderBook
+    (state) => state.marketDepth
   );
   useEffect(() => {
     const request = {
@@ -21,7 +21,7 @@ const MarketDepth = () => {
     <div className="grid justify-center w-screen mt-12">
       <h2 className="text-xl text-center mb-4">Market Depth</h2>
       {!orders.length ? (
-        <p className="italic text-red-500">No Orders Yet</p>
+        <p className="italic text-red-500 text-center">No Orders Yet</p>
       ) : (
         <div>
           <div className="grid grid-flow-col auto-cols-fr gap-8 text-center">

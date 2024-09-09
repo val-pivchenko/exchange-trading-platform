@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import exchangeService from "../clients/exchangeService";
-import { setOrders } from "./orderBookSlice";
+import { setMarketDepth } from "./marketDepthSlice";
+import { setOrderBook } from "./orderBookSlice";
 import { OrderStatus } from "../clients/exchange";
 
 export const createOrderThunk = createAsyncThunk(
@@ -26,9 +27,33 @@ export const getOrdersThunk = createAsyncThunk(
         symbol: "",
         status: OrderStatus.OPEN,
       };
+
       const { response } = await exchangeService.getOrders(request);
+      console.log("OPEN ORDERS");
       console.log(response.orders);
-      setOrders(response.orders);
+      setMarketDepth(response.orders);
+      return response.orders;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const getAllOrdersThunk = createAsyncThunk(
+  "order/getOrders",
+  async (request, { rejectWithValue }) => {
+    try {
+      // For future handle request through UI
+      request = {
+        status: OrderStatus.UNSET_ORDER_STATUS,
+      };
+
+      const { response } = await exchangeService.getOrders(request);
+      console.log("ALL ORDERS");
+
+      console.log(response.orders);
+
+      setOrderBook(response.orders);
       return response.orders;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -45,6 +70,7 @@ export const createOrderAndRefreshThunk = createAsyncThunk(
 
       // Refresh the orders list after order creation
       await dispatch(getOrdersThunk(request));
+      await dispatch(getAllOrdersThunk(request));
 
       return createResponse;
     } catch (error) {
