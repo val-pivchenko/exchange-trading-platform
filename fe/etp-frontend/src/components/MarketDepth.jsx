@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOrdersThunk } from "../store/thunks";
 import { OrderStatus } from "../clients/exchange";
 
-const OrderBook = () => {
+const MarketDepth = () => {
   const dispatch = useDispatch();
   const { buyData, sellData, buyRatio, sellRatio, orders } = useSelector(
     (state) => state.orderBook
@@ -32,10 +32,14 @@ const OrderBook = () => {
               })}
             </div>
             <div className="">
-              <p>Quantity</p>
+              <p>Buy Quantity</p>
               {buyData.map((data) => {
                 return (
-                  <p key={data.id}>{data.quantity - data.quantityFilled}</p>
+                  <p key={data.id}>
+                    {data.quantity -
+                      data.quantityFilled -
+                      data.quantityCancelled}
+                  </p>
                 );
               })}
             </div>
@@ -60,9 +64,15 @@ const OrderBook = () => {
               })}
             </div>
             <div className="">
-              <p>Quantity</p>
+              <p>Sell Quantity</p>
               {sellData.map((data) => {
-                return <p key={data.id}>{data.quantity}</p>;
+                return (
+                  <p key={data.id}>
+                    {data.quantity -
+                      data.quantityFilled -
+                      data.quantityCancelled}
+                  </p>
+                );
               })}
             </div>
             <div className="">
@@ -88,4 +98,4 @@ const OrderBook = () => {
   );
 };
 
-export default OrderBook;
+export default MarketDepth;

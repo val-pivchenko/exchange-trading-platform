@@ -83,7 +83,7 @@
   <changeSet id="4" author="acheong">
     <createTable tableName="last_price">
       <column name="symbol" type="varchar(32)">
-        <constraints nullable="false"/>
+        <constraints nullable="false" unique="true"/>
       </column>
       <column name="price" type="double">
         <constraints nullable="false"/>

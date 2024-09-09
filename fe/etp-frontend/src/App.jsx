@@ -1,5 +1,5 @@
 import Nav from "./components/Nav";
-import OrderBook from "./components/OrderBook";
+import MarketDepth from "./components/MarketDepth";
 
 // alphavantage api key = 'TVGPCUJE195J33RD' for stock api
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Nav></Nav>
-      <OrderBook></OrderBook>
+      <MarketDepth></MarketDepth>
     </>
   );
 }

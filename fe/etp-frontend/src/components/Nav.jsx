@@ -5,6 +5,7 @@ import {
   setStockSearch,
   setLimitPrice,
   resetState,
+  setSymbol,
 } from "../store/stockSlice";
 import { createOrderAndRefreshThunk } from "../store/thunks";
 import { Side, OrderType } from "../clients/exchange";
@@ -17,7 +18,7 @@ const Nav = () => {
     return () => {
       const request = {
         broker: "123",
-        symbol: "AAPL",
+        symbol: stock.symbol,
         type: OrderType.LIMIT,
         price: stock.limitPrice,
         side: side,
@@ -32,7 +33,7 @@ const Nav = () => {
     <div className="grid justify-center w-screen">
       <div className="grid grid-cols-1 gap-4 mb-4 max-w-80 max-h-80">
         <p className="text-lg">
-          Stock: {<span className="font-bold">{stock.name}</span>}
+          Stock: {<span className="font-bold">{stock.symbol}</span>}
         </p>
         <p className="text-lg">
           Total:{" "}
@@ -49,6 +50,7 @@ const Nav = () => {
           id="search"
           placeholder="Search for a stock..."
           className="py-2 px-4 rounded-lg"
+          onChange={(e) => dispatch(setSymbol(e.target.value.toUpperCase()))}
         />
         <div className="relative grid">
           <input
