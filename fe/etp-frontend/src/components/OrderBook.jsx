@@ -19,7 +19,7 @@ const OrderBook = () => {
 
   return (
     <div className="grid justify-center w-screen mt-12">
-      <h2 className="text-xl text-center mb-4">Order Book</h2>
+      <h2 className="text-xl text-center mb-4">Market Depth</h2>
       {!orders.length ? (
         <p className="italic text-red-500">No Orders Yet</p>
       ) : (

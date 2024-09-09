@@ -49,6 +49,7 @@ public class TradingEngine {
         if (sellQuantityRemaining == quantity) {
           asks.remove(0);
         }
+        updateLastPrice(symbol, price);
         createTradeRecord(buy, sell, quantity, price);
         db.commit();
       }
@@ -115,10 +116,21 @@ public class TradingEngine {
     }
   }
 
-  private void updateLastPrice(OrderEntity order) {
-    // TO DO
-    // UPDATE LAST PRICE BASED ON LAST EXECUTED TRANSACTION FOR A SYMBOL
+  private void updateLastPrice(String symbol, double price) throws SQLException {
+    // Update the price if the symbol exists, if not - insert a new record
+    String sql = "INSERT INTO public.last_price (symbol, price) " +
+            "VALUES (?, ?) " +
+            "ON CONFLICT (symbol) DO UPDATE " +
+            "SET price = EXCLUDED.price";
+
+    try (PreparedStatement pstmt = db.prepareStatement(sql)) {
+      pstmt.setString(1, symbol);
+      pstmt.setDouble(2, price);
+
+      pstmt.executeUpdate();
+    }
   }
+
 
   private void createTradeRecord(OrderEntity buy, OrderEntity sell, int quantity, double price) throws SQLException {
     String sql = "INSERT INTO public.trade (id, symbol, buy_order_id, sell_order_id, buy_broker, sell_broker, quantity, price, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
