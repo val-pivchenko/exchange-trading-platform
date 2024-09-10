@@ -91,9 +91,15 @@
     </createTable>
   </changeSet>
 
-  <!--  Create new "symbol" table to look up symbols,
-        Fields:
-                symbol | status (open, halted)
-  -->
+  <changeSet id="5" author="vpiuchanka">
+    <createTable tableName="symbol">
+      <column name="symbol" type="varchar(32)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="status" type="varchar(32)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
 
 </databaseChangeLog>
