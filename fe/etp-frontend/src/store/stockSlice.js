@@ -28,6 +28,9 @@ export const stockSlice = createSlice({
     setStockSearch: (state, action) => {
       state.value.stockSearch = action.payload;
     },
+    setSymbol: (state, action) => {
+      state.value.symbol = action.payload;
+    },
     resetState: (state) => {
       document.querySelector("#quantity").value = null;
       document.querySelector("#limit-price").value = null;
@@ -64,5 +67,6 @@ export const {
   setLimitPrice,
   setStockSearch,
   resetState,
+  setSymbol,
 } = stockSlice.actions;
 export default stockSlice.reducer;

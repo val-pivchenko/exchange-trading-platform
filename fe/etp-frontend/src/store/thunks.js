@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import exchangeService from "../clients/exchangeService";
-import { setOrders } from "./orderBookSlice";
+import { setMarketDepth } from "./marketDepthSlice";
+import { setOrderBook } from "./orderBookSlice";
+import { OrderStatus } from "../clients/exchange";
 
 export const createOrderThunk = createAsyncThunk(
   "order/createOrder",
@@ -16,12 +18,44 @@ export const createOrderThunk = createAsyncThunk(
 );
 
 export const getOrdersThunk = createAsyncThunk(
-  "order/getOrders",
-  async (request, { rejectWithValue }) => {
+  "order/getOpenOrders",
+  async (_, { dispatch, rejectWithValue }) => {
     try {
+      const request = {
+        broker: "",
+        symbol: "",
+        status: OrderStatus.OPEN,
+      };
+
       const { response } = await exchangeService.getOrders(request);
+      console.log("OPEN ORDERS");
       console.log(response.orders);
-      setOrders(response.orders);
+
+      // Dispatch the setMarketDepth action
+      dispatch(setMarketDepth(response.orders));
+
+      return response.orders;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const getAllOrdersThunk = createAsyncThunk(
+  "order/getAllOrders",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const request = {
+        status: OrderStatus.UNSET_ORDER_STATUS,
+      };
+
+      const { response } = await exchangeService.getOrders(request);
+      console.log("ALL ORDERS");
+      console.log(response.orders);
+
+      // Dispatch the setOrderBook action
+      dispatch(setOrderBook(response.orders));
+
       return response.orders;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -37,7 +71,8 @@ export const createOrderAndRefreshThunk = createAsyncThunk(
       const createResponse = await dispatch(createOrderThunk(request)).unwrap();
 
       // Refresh the orders list after order creation
-      await dispatch(getOrdersThunk(request));
+      await dispatch(getOrdersThunk());
+      await dispatch(getAllOrdersThunk());
 
       return createResponse;
     } catch (error) {

@@ -1,84 +1,107 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getOrdersThunk } from "../store/thunks";
+import { getAllOrdersThunk } from "../store/thunks";
 import { OrderStatus } from "../clients/exchange";
 
 const OrderBook = () => {
   const dispatch = useDispatch();
-  const { buyData, sellData, buyRatio, sellRatio, orders } = useSelector(
-    (state) => state.orderBook
-  );
+  const { orders } = useSelector((state) => state.orderBook);
   useEffect(() => {
     const request = {
       broker: "",
       symbol: "",
-      status: OrderStatus.OPEN,
+      status: OrderStatus.UNSET_ORDER_STATUS,
     };
-    dispatch(getOrdersThunk(request));
+    dispatch(getAllOrdersThunk(request));
   }, [dispatch]);
 
   return (
     <div className="grid justify-center w-screen mt-12">
       <h2 className="text-xl text-center mb-4">Order Book</h2>
       {!orders.length ? (
-        <p className="italic text-red-500">No Orders Yet</p>
+        <p className="italic text-red-500 text-center">No Orders Yet</p>
       ) : (
         <div>
           <div className="grid grid-flow-col auto-cols-fr gap-8 text-center">
             <div>
-              <p>Orders</p>
-              {buyData.map((data) => {
-                return <p key={data.id}>1</p>;
+              <p>Broker</p>
+              {orders.map((data) => {
+                return <p key={data.id}>{data.broker}</p>;
               })}
             </div>
             <div className="">
-              <p>Quantity</p>
-              {buyData.map((data) => {
-                return <p key={data.id}>{data.quantity}</p>;
+              <p>Symbol</p>
+              {orders.map((data) => {
+                return <p key={data.id}>{data.symbol}</p>;
               })}
             </div>
             <div className="">
-              <p>Buy</p>
-              {buyData.map((data) => {
+              <p>Status</p>
+              {orders.map((data) => {
                 return (
-                  <p key={data.id} className="text-green-500">
-                    {data.price}
+                  <p key={data.id}>{data.status === 1 ? "Open" : "Complete"}</p>
+                );
+              })}
+            </div>
+            <div className="">
+              <p>Side</p>
+              {orders.map((data) => {
+                return (
+                  <p
+                    key={data.id}
+                    className={
+                      data.side === 1 ? "text-green-500" : "text-red-500"
+                    }
+                  >
+                    {data.side === 1 ? "Buy" : "Sell"}
                   </p>
                 );
               })}
             </div>
             <div className="">
-              <p>Sell</p>
-              {sellData.map((data) => {
+              <p>Type</p>
+              {orders.map((data) => {
                 return (
-                  <p key={data.id} className="text-red-500">
-                    {data.price}
-                  </p>
+                  <p key={data.id}>{data.type === 1 ? "Limit" : "Market"}</p>
                 );
               })}
             </div>
             <div className="">
+              <p>Price</p>
+              {orders.map((data) => {
+                return <p key={data.id}>{data.price}</p>;
+              })}
+            </div>
+            <div className="">
               <p>Quantity</p>
-              {sellData.map((data) => {
+              {orders.map((data) => {
                 return <p key={data.id}>{data.quantity}</p>;
               })}
             </div>
             <div className="">
-              <p>Orders</p>
-              {sellData.map((data) => {
-                return <p key={data.id}>1</p>;
+              <p>Filled</p>
+              {orders.map((data) => {
+                return <p key={data.id}>{data.quantityFilled}</p>;
               })}
             </div>
-          </div>
-          <div className="w-full mt-8 flex">
-            <span
-              className="border-2 border-green-700"
-              style={{ width: buyRatio + "%" }}
-            ></span>
-            <span
-              className="border-2 border-red-700"
-              style={{ width: sellRatio + "%" }}
-            ></span>
+            <div className="">
+              <p>Cancelled</p>
+              {orders.map((data) => {
+                return <p key={data.id}>{data.quantityCancelled}</p>;
+              })}
+            </div>
+            <div className="">
+              <p>Remaining</p>
+              {orders.map((data) => {
+                return (
+                  <p key={data.id}>
+                    {data.quantity -
+                      data.quantityFilled -
+                      data.quantityCancelled}
+                  </p>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

@@ -1,59 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getOrdersThunk } from "./thunks";
-import { Side } from "../clients/exchange";
+import { getAllOrdersThunk } from "./thunks";
 
 export const orderBookSlice = createSlice({
   name: "orderBook",
   initialState: {
     orders: [],
-    buyData: [],
-    sellData: [],
-    buyRatio: 0,
-    sellRatio: 0,
     status: "idle", // Added to track status of fetch
     error: null, // Added to track errors
   },
   reducers: {
-    setOrders: (state, action) => {
+    setOrderBook: (state, action) => {
       state.orders = action.payload;
-    },
-    filterOrders: (state) => {
-      state.buyData = state.orders
-        .filter((record) => record.side === Side.BUY)
-        .sort((x, y) => y.price - x.price);
-
-      state.sellData = state.orders
-        .filter((record) => record.side === Side.SELL)
-        .sort((x, y) => x.price - y.price);
-
-      const totalOrders = state.buyData.length + state.sellData.length;
-
-      if (totalOrders > 0) {
-        state.buyRatio = Math.round((state.buyData.length * 100) / totalOrders);
-        state.sellRatio = 100 - state.buyRatio;
-      } else {
-        state.buyRatio = 0;
-        state.sellRatio = 0;
-      }
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getOrdersThunk.pending, (state) => {
+      .addCase(getAllOrdersThunk.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+      .addCase(getAllOrdersThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.orders = action.payload;
-        orderBookSlice.caseReducers.filterOrders(state);
       })
-      .addCase(getOrdersThunk.rejected, (state, action) => {
+      .addCase(getAllOrdersThunk.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
 
-export const { setOrders, filterOrders } = orderBookSlice.actions;
+export const { setOrderBook } = orderBookSlice.actions;
 export default orderBookSlice.reducer;
