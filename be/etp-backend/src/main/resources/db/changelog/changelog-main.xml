@@ -80,7 +80,7 @@
     </createTable>
   </changeSet>
 
-  <changeSet id="4" author="acheong">
+  <changeSet id="4" author="vpiuchanka">
     <createTable tableName="last_price">
       <column name="symbol" type="varchar(32)">
         <constraints nullable="false" unique="true"/>

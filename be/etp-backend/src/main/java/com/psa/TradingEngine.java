@@ -113,6 +113,8 @@ public class TradingEngine {
             ) >= order.quantity() ? "COMPLETE" : order.status());
       pstmt.setString(3, order.id());
       pstmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -128,6 +130,8 @@ public class TradingEngine {
       pstmt.setDouble(2, price);
 
       pstmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -145,6 +149,8 @@ public class TradingEngine {
       pstmt.setDouble(8, price);
       pstmt.setTimestamp(9, Timestamp.from(Instant.now()));
       pstmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
 }

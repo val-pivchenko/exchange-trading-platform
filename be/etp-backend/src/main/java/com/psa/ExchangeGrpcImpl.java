@@ -128,12 +128,16 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
 
         StringBuilder sql = new StringBuilder();
 
-        if (request.getStatus().equals(OrderStatus.UNSET_ORDER_STATUS)) {
-            sql.append("SELECT * FROM public.order");
-            System.out.println("*** Getting all orders.");
-        } else {
-            sql.append("SELECT * FROM public.order WHERE status = '").append(request.getStatus()).append("'");
-            System.out.println("*** Getting orders with status: '" + request.getStatus() + "'");
+        switch(request.getStatus()) {
+            case OPEN:
+            case COMPLETE:
+                sql.append("SELECT * FROM public.order WHERE status = '").append(request.getStatus()).append("'");
+                System.out.println("*** Getting orders with status: '" + request.getStatus() + "'");
+                break;
+            default:
+                sql.append("SELECT * FROM public.order");
+                System.out.println("*** Getting all orders.");
+
         }
 
         try {
