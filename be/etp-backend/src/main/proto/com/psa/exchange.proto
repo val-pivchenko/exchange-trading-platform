@@ -3,6 +3,8 @@ syntax = "proto3";
 package com.psa;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
 
 enum OrderType {
   UNSET_ORDER_TYPE = 0;
@@ -20,6 +22,29 @@ enum OrderStatus {
   UNSET_ORDER_STATUS = 0;
   OPEN = 1;
   COMPLETE = 2;
+}
+
+message GetSymbolsResponse {
+  repeated Symbol symbols = 1;
+}
+
+message Symbol {
+  enum SymbolStatus {
+    UNSET_SYMBOL_STATUS = 0;
+    OPEN = 1;
+    HALTED = 2;
+  }
+  string symbol = 1;
+  SymbolStatus status = 2;
+}
+
+message GetLastPriceRequest {
+  string symbol = 1;
+}
+
+message GetLastPriceResponse {
+  string symbol = 1;
+  double price = 2;
 }
 
 message CreateOrderRequest {
@@ -62,4 +87,6 @@ message GetOrdersResponse {
 service Exchange {
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
   rpc GetOrders(GetOrdersRequest) returns (GetOrdersResponse);
+  rpc GetSymbols(google.protobuf.Empty) returns (GetSymbolsResponse);
+  rpc GetLastPrice(GetLastPriceRequest) returns (GetLastPriceResponse);
 }

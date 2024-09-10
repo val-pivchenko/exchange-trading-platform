@@ -91,4 +91,9 @@
     </createTable>
   </changeSet>
 
+  <!--  Create new "symbol" table to look up symbols,
+        Fields:
+                symbol | status (open, halted)
+  -->
+
 </databaseChangeLog>
