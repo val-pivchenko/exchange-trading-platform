@@ -137,7 +137,7 @@ public class TradingEngine {
         }
     }
 
-    // Create a symbol record, possibly put in scanOrderBook, where would status come from?
+    // Create a symbol record, possibly put in scanOrderBook, where would the status come from?
     private void createSymbolRecord(String symbol, String status) throws SQLException {
         String sql = "INSERT INTO public.symbol (symbol, status) " +
                 "VALUES (?, ?) " +
@@ -152,7 +152,7 @@ public class TradingEngine {
         }
     }
 
-    // Get symbols draft, later to put in ExchangeGrpcImpl, need to regenerate outer class
+    // Have put the endpoint in ExchangeGrpcImpl, leaving this here for potential later use.
     private void getSymbols() throws SQLException {
         String sql = "SELECT * FROM public.symbol";
         try (PreparedStatement pstmt = db.prepareStatement(sql)) {
@@ -162,7 +162,9 @@ public class TradingEngine {
         }
     }
 
-    // Update symbol status draft, later to put in ExchangeGrpcImpl, need to regenerate outer class
+    // Update symbol status draft, later to put in ExchangeGrpcImpl
+    // Since users (buyers and sellers) don't control symbol status, maybe we shouldn't expose this endpoint
+    // Or potentially allow usage for 'admin' user
     private void updateSymbolStatus(String symbol, String status) throws SQLException, Exception {
         String selectQuery = "SELECT COUNT(*) FROM symbol WHERE symbol = ?";
         String updateQuery = "UPDATE symbol SET status = ? WHERE symbol = ?";
