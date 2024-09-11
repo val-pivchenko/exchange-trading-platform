@@ -9,18 +9,19 @@ import com.psa.ExchangeOuterClass.CreateOrderResponse;
 import com.psa.ExchangeOuterClass.GetOrdersRequest;
 import com.psa.ExchangeOuterClass.GetOrdersResponse;
 import com.psa.ExchangeOuterClass.GetOrdersResponse.Builder;
+import com.psa.ExchangeOuterClass.GetSymbolsResponse;
+//import com.psa.ExchangeOuterClass.GetSymbolsResponse.Builder;
 import com.psa.ExchangeOuterClass.Order;
 import com.psa.ExchangeOuterClass.OrderStatus;
 import com.psa.ExchangeOuterClass.OrderType;
 import com.psa.ExchangeOuterClass.Side;
+import com.psa.ExchangeOuterClass.Symbol;
+import com.psa.ExchangeOuterClass.Symbol.SymbolStatus;
 import com.psa.mappers.EnumMappers;
 
 import io.grpc.stub.StreamObserver;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.EnumMap;
+import java.sql.*;
 import java.util.UUID;
 
 public class ExchangeGrpcImpl extends ExchangeImplBase {
@@ -173,6 +174,39 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
             }
 
             System.out.println("*** Responding to getOrders().");
+
+            responseObserver.onNext(response.build());
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getSymbols(
+            StreamObserver<GetSymbolsResponse> responseObserver) {
+
+        System.out.println("*** Entering getSymbols().");
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM public.symbol");
+
+        try {
+            System.out.println("*** Running SQL statement: " + sql);
+            Statement statement = db.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql.toString());
+
+            GetSymbolsResponse.Builder response = GetSymbolsResponse.newBuilder();
+            while (resultSet.next()) {
+                String symbol = resultSet.getString("symbol");
+                SymbolStatus status = EnumMappers.fromStringSymbolStatus(resultSet.getString("status"));
+                response.addSymbols(Symbol.newBuilder()
+                        .setSymbol(symbol)
+                        .setStatus(status)
+                        .build());
+            }
+
+            System.out.println("*** Responding to getSymbols().");
 
             responseObserver.onNext(response.build());
             responseObserver.onCompleted();
