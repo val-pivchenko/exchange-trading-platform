@@ -1,12 +1,16 @@
 package com.psa;
 
 import io.grpc.Server;
+import java.util.*;
+import java.sql.*;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
@@ -73,6 +77,39 @@ public class Main {
         String id = resultSet.getString("id");
         System.out.println("ID: " + id);
       }
+
+      // Create Symbols.
+      // [AAPL, AMZN, TSLA, GOOG, NVDA]
+
+      List<String> symbols = new ArrayList<>();
+
+      symbols.add("AAPL");
+      symbols.add("AMZN");
+      symbols.add("TSLA");
+      symbols.add("GOOG");
+      symbols.add("INTC");
+      symbols.add("MSFT");
+      symbols.add("GME");
+      symbols.add("DIS");
+      symbols.add("PYPL");
+      symbols.add("SOFI");
+      symbols.add("AAL");
+      symbols.add("AMD");
+      symbols.add("BAC");
+
+      System.out.println("Adding symbols...");
+
+      String insertSQL = "INSERT INTO public.symbol (symbol, status) " +
+              "VALUES (?, 'OPEN') ON CONFLICT (symbol) DO NOTHING";
+      try (PreparedStatement addSymStmt = connection.prepareStatement(insertSQL)) {
+        for (String sym : symbols) {
+          addSymStmt.setString(1, sym);
+          addSymStmt.executeUpdate();
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+
     }
 
     Server server = ServerBuilder.forPort(8999)

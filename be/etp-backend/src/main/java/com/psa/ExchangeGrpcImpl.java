@@ -167,7 +167,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
     }
 
     @Override
-    public void getSymbols(StreamObserver<GetSymbolsResponse> responseObserver) {
+    public void getSymbols(com.google.protobuf.Empty request, StreamObserver<GetSymbolsResponse> responseObserver) {
 
         System.out.println("*** Entering getSymbols().");
 
@@ -201,7 +201,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
 
         StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT * FROM public.last_price WHERE price = '").append(request.getSymbol()).append("'");
+        sql.append("SELECT * FROM public.last_price WHERE symbol = '").append(request.getSymbol()).append("'");
 
         try {
             System.out.println("*** Running SQL statement: " + sql);

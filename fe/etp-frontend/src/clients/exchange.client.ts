@@ -4,6 +4,10 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { Exchange } from "./exchange";
+import type { GetLastPriceResponse } from "./exchange";
+import type { GetLastPriceRequest } from "./exchange";
+import type { GetSymbolsResponse } from "./exchange";
+import type { Empty } from "./google/protobuf/empty";
 import type { GetOrdersResponse } from "./exchange";
 import type { GetOrdersRequest } from "./exchange";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -23,6 +27,14 @@ export interface IExchangeClient {
      * @generated from protobuf rpc: GetOrders(com.psa.GetOrdersRequest) returns (com.psa.GetOrdersResponse);
      */
     getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse>;
+    /**
+     * @generated from protobuf rpc: GetSymbols(google.protobuf.Empty) returns (com.psa.GetSymbolsResponse);
+     */
+    getSymbols(input: Empty, options?: RpcOptions): UnaryCall<Empty, GetSymbolsResponse>;
+    /**
+     * @generated from protobuf rpc: GetLastPrice(com.psa.GetLastPriceRequest) returns (com.psa.GetLastPriceResponse);
+     */
+    getLastPrice(input: GetLastPriceRequest, options?: RpcOptions): UnaryCall<GetLastPriceRequest, GetLastPriceResponse>;
 }
 /**
  * @generated from protobuf service com.psa.Exchange
@@ -46,5 +58,19 @@ export class ExchangeClient implements IExchangeClient, ServiceInfo {
     getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
         return stackIntercept<GetOrdersRequest, GetOrdersResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetSymbols(google.protobuf.Empty) returns (com.psa.GetSymbolsResponse);
+     */
+    getSymbols(input: Empty, options?: RpcOptions): UnaryCall<Empty, GetSymbolsResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<Empty, GetSymbolsResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetLastPrice(com.psa.GetLastPriceRequest) returns (com.psa.GetLastPriceResponse);
+     */
+    getLastPrice(input: GetLastPriceRequest, options?: RpcOptions): UnaryCall<GetLastPriceRequest, GetLastPriceResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetLastPriceRequest, GetLastPriceResponse>("unary", this._transport, method, opt, input);
     }
 }

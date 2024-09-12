@@ -51,7 +51,7 @@ public class TradingEngine {
                 if (sellQuantityRemaining == quantity) {
                     asks.remove(0);
                 }
-                createSymbolRecord(symbol, "OPEN");
+//                createSymbolRecord(symbol, "OPEN");
                 updateLastPrice(symbol, price);
                 createTradeRecord(buy, sell, quantity, price);
                 db.commit();
