@@ -74,5 +74,8 @@ grpcurl -plaintext -d '{  "broker": "043",  "symbol": "AAPL",  "type": "LIMIT", 
 ```
 
 ### Running the HTTP/2 proxy
+Install <a href="https://github.com/improbable-eng/grpc-web/tree/master/go/grpcwebproxy">grpcwebproxy</a>
 
-TODO
+Run command
+grpcwebproxy --backend_addr=localhost:8999 --run_tls_server=false --allow_all_origins
+
