@@ -3,6 +3,8 @@ package com.psa;
 import static com.psa.ExchangeOuterClass.Side.BUY;
 import static com.psa.ExchangeOuterClass.Side.SELL;
 
+import com.google.protobuf.Timestamp;
+
 import com.psa.ExchangeGrpc.ExchangeImplBase;
 import com.psa.ExchangeOuterClass.CreateOrderRequest;
 import com.psa.ExchangeOuterClass.CreateOrderResponse;
@@ -154,7 +156,15 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
                 Integer quantity = resultSet.getInt("quantity");
                 Integer quantityFilled = resultSet.getInt("quantity_filled");
                 Integer quantityCancelled = resultSet.getInt("quantity_cancelled");
-                response.addOrders(Order.newBuilder().setId(id).setStatus(status).setBroker(broker).setSymbol(symbol).setSide(side).setType(type).setPrice(price).setQuantity(quantity).setQuantityFilled(quantityFilled).setQuantityCancelled(quantityCancelled).build());
+//                java.sql.Timestamp sqlTimestamp = resultSet.getTimestamp("timestamp");
+//
+//                Timestamp protoTimestamp = Timestamp.newBuilder()
+//                        .setSeconds(sqlTimestamp.getTime() / 1000) // Convert to seconds
+//                        .setNanos(sqlTimestamp.getNanos())         // Set nanoseconds
+//                        .build();
+                response.addOrders(Order.newBuilder().setId(id).setStatus(status).setBroker(broker).setSymbol(symbol).setSide(side).setType(type).setPrice(price).setQuantity(quantity).setQuantityFilled(quantityFilled).setQuantityCancelled(quantityCancelled)
+//                        .setTimestamp(protoTimestamp)
+                        .build());
             }
 
             System.out.println("*** Responding to getOrders().");
