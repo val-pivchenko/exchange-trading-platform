@@ -15,6 +15,12 @@ const MarketDepth = () => {
       status: OrderStatus.OPEN,
     };
     dispatch(getOrdersThunk(request));
+
+    const interval = setInterval(() => {
+      dispatch(getOrdersThunk(request));
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (

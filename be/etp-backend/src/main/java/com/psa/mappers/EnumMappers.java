@@ -2,6 +2,7 @@ package com.psa.mappers;
 
 import com.psa.ExchangeOuterClass.OrderStatus;
 import com.psa.ExchangeOuterClass.OrderType;
+import com.psa.ExchangeOuterClass.Symbol.SymbolStatus;
 
 public class EnumMappers {
 
@@ -24,6 +25,19 @@ public class EnumMappers {
         return OrderStatus.COMPLETE;
       default:
         throw new RuntimeException("Invalid order status '" + status + "'.");
+    }
+  }
+
+  public static SymbolStatus fromStringSymbolStatus(String status) {
+    switch (status) {
+      case "UNSET_SYMBOL_STATUS":
+        return SymbolStatus.UNSET_SYMBOL_STATUS;
+      case "OPEN":
+        return SymbolStatus.OPEN;
+      case "HALTED":
+        return SymbolStatus.HALTED;
+      default:
+        throw new RuntimeException("Invalid symbol status '" + status + "'.");
     }
   }
 }

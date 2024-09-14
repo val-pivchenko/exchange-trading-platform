@@ -6,6 +6,7 @@ import { OrderStatus } from "../clients/exchange";
 const OrderBook = () => {
   const dispatch = useDispatch();
   const { orders } = useSelector((state) => state.orderBook);
+
   useEffect(() => {
     const request = {
       broker: "",
@@ -13,6 +14,12 @@ const OrderBook = () => {
       status: OrderStatus.UNSET_ORDER_STATUS,
     };
     dispatch(getAllOrdersThunk(request));
+
+    const interval = setInterval(() => {
+      dispatch(getAllOrdersThunk(request));
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (
@@ -102,6 +109,16 @@ const OrderBook = () => {
                 );
               })}
             </div>
+            {/* <div className="">
+              <p>Timestamp</p>
+              {orders.map((data) => {
+                return (
+                  <p key={data.id}>
+                    {new Date(data.timestamp.seconds * 1000).toLocaleDateString}
+                  </p>
+                );
+              })}
+            </div> */}
           </div>
         </div>
       )}
