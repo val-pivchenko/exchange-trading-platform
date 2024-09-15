@@ -16,6 +16,9 @@ export const symbolsSlice = createSlice({
     setLastPrice: (state, action) => {
       state.lastPrice = action.payload;
     },
+    resetLastPrice: (state) => {
+      state.lastPrice = 0;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -34,5 +37,6 @@ export const symbolsSlice = createSlice({
   },
 });
 
-export const { setSymbols, setLastPrice } = symbolsSlice.actions;
+export const { setSymbols, setLastPrice, resetLastPrice } =
+  symbolsSlice.actions;
 export default symbolsSlice.reducer;
