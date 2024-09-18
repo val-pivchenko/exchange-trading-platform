@@ -205,6 +205,7 @@ public class ExchangeGrpcImpl extends ExchangeImplBase {
         }
     }
 
+    @Override
     public void getLastPrice(GetLastPriceRequest request, StreamObserver<GetLastPriceResponse> responseObserver) {
 
         System.out.println("*** Entering getLastPrice().");

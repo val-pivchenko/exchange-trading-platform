@@ -7,7 +7,8 @@ import {
   setLimitPrice,
   resetState,
   setSymbol,
-} from "../store/stockSlice";
+} from "../store/stockSlice.ts";
+import { resetLastPrice } from "../store/symbolsSlice.js";
 import {
   createOrderAndRefreshThunk,
   getSymbolsThunk,
@@ -169,6 +170,8 @@ const Nav = () => {
         <button
           onClick={() => {
             dispatch(resetState());
+            dispatch(resetLastPrice());
+            setQuery("");
           }}
           className="bg-blue-700 py-2 border-0 hover:bg-blue-600"
         >
